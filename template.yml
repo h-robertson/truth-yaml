@@ -1,0 +1,144 @@
+id: ''
+name: Untitled template
+description: A Flourish template
+author: Unknown author
+
+sdk_version: 3
+
+build:
+  src:
+    script: npm run build
+    directory: src
+    files:
+      - rollup.config.js
+
+  less:
+    script: npm run less
+    directory: less
+
+settings:
+
+# CHART
+  - Chart
+
+  # Grid mode
+  - property: facet_layout
+    name: Grid mode
+    description: >-
+      “Grid of charts” creates a mini chart for each series (or each value in
+      your ”Charts grid” column, if specified)
+    type: string
+    style: buttons
+    choices:
+      - - Single chart
+        - single
+      - - Grid of charts
+        - facets
+
+  # Height mode
+  - property: height_mode
+    name: Height mode
+    description: How the graphic's height is determined; ignored when embedded in a fixed-height context such as a simple iframe embed. "Auto" sets the height based on the chart type, data and width. "Standard" uses the default Flourish responsive sizing. "Aspect ratio" sets the aspect of each plot.
+    type: string
+    style: buttons
+    choices:
+      - [ Auto, auto ]
+      - [ Standard, fill_space ]
+      - [ Aspect ratio, aspect ]
+  - property: facet_aspect
+    name: Aspect (desktop)
+    type: number
+    description: Aspect ratio of each plot in desktop mode, where 1 is square, above 1 is wider, and below 1 is taller.
+    min: 0.01
+    step: 0.1
+    width: quarter
+    show_if:
+      height_mode: "aspect"
+  - property: facet_aspect_mobile
+    name: Aspect (mobile)
+    type: number
+    description: Aspect of each plot in mobile mode, where 1 is square, above 1 is wider, and below 1 is taller.
+    min: 0.01
+    step: 0.1
+    width: quarter
+    show_if:
+      height_mode: "aspect"
+  - property: facet_aspect_breakpoint
+    name: Breakpoint
+    type: number
+    description: The width at which mobile mode ends and desktop begins
+    step: 50
+    min: 0
+    width: quarter
+    show_if:
+      height_mode: "aspect"
+
+
+# TEXT
+  - Text
+
+  # Text size
+  - new_section: Font size
+    property: font_size_mode
+    name: Size mode
+    type: string
+    width: half
+    style: buttons
+    choices:
+      - [ Auto, auto ]
+      - [ Fixed, fixed ]
+  - property: font_size
+    name: Size
+    type: number
+    min: 0
+    width: quarter
+    step: 0.1
+    show_if:
+      font_size_mode: "fixed"
+
+  - new_section: Other font properties
+  # Text weight
+   property: font_weight
+    name: Weight
+    type: string
+    width: half
+    style: buttons
+    choices:
+      - [ Bold, "600" ]
+      - [ Normal, "400" ]
+
+  # Text color
+  - property: font_color
+    name: Color
+    type: color
+    width: quarter
+
+  # Text opacity
+  - property: font_opacity
+    name: Opacity
+    type: number
+    width: quarter
+    max: 1
+    min: 0
+    step: 0.1
+
+  # Text shadow
+  - property: font_shadow
+    name: Shadow
+    type: boolean
+    width: half
+
+
+# LINES
+  - Lines
+
+# DOTS
+  - Dots
+
+# ANIMATION
+  - Animation
+
+# IMAGE
+  - Image
+
+data:

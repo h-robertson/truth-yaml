@@ -19,14 +19,14 @@ build:
 settings:
 
 # CHART
-  - Chart
+  - Chart layout
 
   # Grid mode
   - property: facet_layout
     name: Grid mode
     description: >-
       “Grid of charts” creates a mini chart for each series (or each value in
-      your ”Charts grid” column, if specified)
+      your “Charts grid” column, if specified)
     type: string
     style: buttons
     choices:
@@ -38,7 +38,7 @@ settings:
   # Height mode
   - property: height_mode
     name: Height mode
-    description: How the graphic's height is determined; ignored when embedded in a fixed-height context such as a simple iframe embed. "Auto" sets the height based on the chart type, data and width. "Standard" uses the default Flourish responsive sizing. "Aspect ratio" sets the aspect of each plot.
+    description: How the graphic's height is determined; ignored when embedded in a fixed-height context such as a simple iframe embed. “Auto” sets the height based on the chart type, data and width. “Standard” uses the default Flourish responsive sizing. “Aspect ratio” sets the aspect of each plot.
     type: string
     style: buttons
     choices:
@@ -57,7 +57,7 @@ settings:
   - property: facet_aspect_mobile
     name: Aspect (mobile)
     type: number
-    description: Aspect of each plot in mobile mode, where 1 is square, above 1 is wider, and below 1 is taller.
+    description: Aspect ratio of each plot in mobile mode, where 1 is square, above 1 is wider, and below 1 is taller.
     min: 0.01
     step: 0.1
     width: quarter
@@ -97,8 +97,9 @@ settings:
       font_size_mode: "fixed"
 
   - new_section: Other font properties
+
   # Text weight
-   property: font_weight
+    property: font_weight
     name: Weight
     type: string
     width: half
@@ -128,17 +129,243 @@ settings:
     type: boolean
     width: half
 
+# ALIGNMENT & SPACING
+
+  - Alignment & spacing
+  - new_section: Alignment
+    property: text_alignment
+    name: Text alignment
+    type: string
+    style: buttons
+    width: half
+    choices:
+      - - fa-align-left
+        - left
+      - - fa-align-center
+        - center
+      - - fa-align-right
+        - right
+
+  - property: bar_alignment
+    name: Bar alignment
+    description: In stacked bar charts the final “outside bar” option falls back to right alignment, since the space after the stack is reserved for stack total labels (see below)
+    type: string
+    style: buttons
+    width: half
+    choices:
+      - - fa-align-left
+        - left
+      - - fa-align-center
+        - center
+      - - fa-align-right
+        - right
+      - - fa-sign-out
+        - out
+
+  - property: column_alignment
+    name: Column alignment
+    description: The final option “above” option puts the labels above the bars in standard column charts but falls back to top alignment in stacked charts, where the space above the stack is reserved for stack total labels
+    type: string
+    style: buttons
+    width: half
+    choices:
+      - - fa-arrow-down
+        - bottom
+      - - fa-minus
+        - middle
+      - - fa-arrow-up
+        - top
+      - - fa-level-up
+        - above
+
+
+  - new_section: Spacing
+    property: padding
+    name: Padding
+    description: Space above or below, as a proportion of the font size.
+    type: number
+    step: 0.1
+    width: quarter
+
+  - property: max_width
+    type: number
+    name: Max width
+    description: Maximum width before text spreads onto multiple lines
+    width: quarter
+    min: 0
 
 # LINES
   - Lines
+  - property: line_width
+    name: Width
+    type: number
+    description: In rems, a multiple of the page's base font size
+    width: quarter
+    min: 0
+    step: 0.1
+
+  - property: line_opacity
+    name: Opacity
+    type: number
+    width: quarter
+    max: 1
+    min: 0
+    step: 0.1
+
+  - property: line_curve
+    name: Line curve
+    choices:
+      - - Straight
+        - curveLinear
+      - - Curve (X)
+        - curveMonotoneX
+      - - Curve (Natural)
+        - curveNatural
+      - - Step
+        - curveStep
+      - - Step Before
+        - curveStepBefore
+      - - Step After
+        - curveStepAfter
+    width: half
+    type: string
+
+  - property: line_dash_width
+    name: Dash width
+    type: number
+    width: quarter
+    min: 0
+
+  - property: line_dash_space_width
+    name: Space width
+    type: number
+    width: quarter
+    min: 0
 
 # DOTS
-  - Dots
+  - Dots/points
+  - property: data_point_default_size
+    name: Default size
+    description: >-
+      In pixel area. Only used when Size column is unspecified or empty. Subject
+      to scaling with the chart size (see seeing below).
+    type: number
+    min: 1
+    new_section: Dot sizing
+    width: quarter
+    hide_if: data.data.size
+
+  - property: data_point_min_size
+    name: Min size
+    description: >-
+      In pixel area. Used when you have a Size column selected. Subject to
+      scaling with the chart size.
+    type: number
+    min: 0
+    width: quarter
+    show_if: data.data.size
+    
+  - property: data_point_max_size
+    name: Max size
+    description: >-
+      In pixel area. Used when you have a Size column selected. Subject to
+      scaling with the chart size.
+    type: number
+    min: 0
+    width: quarter
+    show_if: data.data.size
+
+  - property: responsive_dots
+    name: Scale dots based on chart size
+    description: >-
+      Makes dots larger or smaller relative to the chart size. Turn off
+      to specify a fixed size regardless of chart size.
+    type: boolean
+    width: half
 
 # ANIMATION
   - Animation
+  - property: animation_duration
+    name: Animation duration
+    description: >-
+      The duration, in milliseconds, of transitions – for example, on load of visualization or between two
+      slides in a story
+    type: number
+    min: 0
+    width: half
+
+  - property: animation_stagger
+    name: Animation stagger
+    description: The delay between each dot starting to move, in milliseconds. Set to 0 to have all dots move simultaneously.
+    type: number
+    step: 100
+    min: 0
+
+  - property: animate_on_load
+    name: Animate on load
+    type: boolean
+    width: half
 
 # IMAGE
   - Image
+  - new_section: Sizing
+    property: image_width
+    name: Width
+    description: In rems, a multiple of the page's base font size?
+    type: number
+    width: quarter
+
+  - property: image_aspect_ratio
+    name: Aspect ratio
+    description: "As a multiplier of the image's width. For example: a value of 2, means the image height is 2 times the image width"
+    type: number
+    width: quarter
+    min: 0
+    step: 0.05
+
+  - property: image_sizing
+    type: string
+    name: Image sizing
+    choices:
+        - [ Fill, cover ]
+        - [ Fit, contain ]
+    style: buttons
+    width: half
+
+  - property: image_border_color
+    new_section: border
+    name: Color
+    type: color
+    width: quarter
+
+  - property: image_border_width
+    name: Width
+    type: number
+    width: quarter
+    min: 0
+
+  - property: image_shape
+    name: Shape
+    type: string
+    style: buttons
+    width: quarter
+    choices:
+      - [ fa-circle, circle ]
+      - [ fa-square, square ]
+
+  - property: image_radius
+    name: Roundness
+    type: number
+    width: quarter
+    min: 0
+    max: 100
 
 data:
+  - Data
+  - dataset: data
+    key: size
+    name: Size
+    type: column
+    optional: true
+    description: Sizes the dots based on numbers or categories
+    column: Data::C
